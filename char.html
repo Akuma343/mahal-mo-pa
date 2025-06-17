@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Follow for more videos!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="box">
+      <h1 class="title">Mahal mo parin siya?</h1>
+      <div class="choice">
+        <label class="radio-label yes-btn"><input type="radio" name="choose" value="Oo" /> Oo</label>
+        <label class="radio-label no-btn"><input type="radio" name="choose" value="Hindi" /> Hindi</label>
+      </div>
+
+      <div class="whatif">
+        <video id="myVideo" src="hey.mp4" muted playsinline></video>
+        <audio id="whatifAudio" src="what if.mp3"></audio>
+      </div>
+
+      <div class="videos" id="videos">
+        <div class="for-image" id="no"></div>
+        <div class="background-music" id="music">
+          <audio id="bgMusic" controls autoplay loop>
+            <source src="kung tayo talaga.mp3" type="audio/mpeg" />
+          </audio>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="hearts-container"></div>
+  <div id="rain-container"></div>
+
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(45deg, #FF6B6B, #FF8E8E);
+      --secondary-gradient: linear-gradient(45deg, #4ECDC4, #45B7AF);
+      --accent-color: #FFE66D;
+      --box-padding: clamp(1.5rem, 5vw, 3rem);
+      --title-size: clamp(2rem, 5vw, 3.5rem);
+      --button-size: clamp(1rem, 3vw, 1.5rem);
+    }
+
+    body {
+      background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      overflow-x: hidden;
+      transition: background 1s ease;
+    }
+
+    body.dark-mode {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
+    }
+
+    body.happy-mode {
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    }
+
+    #hearts-container, #rain-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 40px;
+      color: #ff6b6b;
+      animation: floatHeart 4s ease-in infinite;
+      opacity: 0;
+      filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.5));
+    }
+
+    .rain-drop {
+      position: absolute;
+      width: 4px;
+      background: rgba(255, 255, 255, 0.9);
+      animation: rain 1s linear infinite;
+      opacity: 0;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+      border-radius: 2px;
+    }
+
+    body.dark-mode .rain-drop {
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+    }
+
+    .sad-icon {
+      position: absolute;
+      font-size: 48px;
+      color: rgba(255, 255, 255, 0.7);
+      animation: floatSad 3s ease-in-out infinite;
+      opacity: 0;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(100vh) scale(0) rotate(0deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(50vh) scale(1.2) rotate(180deg);
+      }
+      100% {
+        transform: translateY(-100px) scale(1) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes floatSad {
+      0% {
+        transform: translateY(100vh) rotate(0deg) scale(0.5);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.8;
+        transform: translateY(50vh) rotate(180deg) scale(1.2);
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg) scale(1);
+        opacity: 0;
+      }
+    }
+
+    @keyframes rain {
+      0% {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: clamp(1rem, 3vw, 2rem);
+    }
+
+    .box {
+      width: min(800px, 90%);
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.95);
+      padding: var(--box-padding);
+      border-radius: clamp(20px, 4vw, 30px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(20px);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      z-index: 2;
+      gap: clamp(1.5rem, 4vw, 3rem);
+    }
+
+    .box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+      transform: rotate(30deg);
+      pointer-events: none;
+    }
+
+    .box:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+    }
+
+    .title {
+      color: #2c3e50;
+      font-size: var(--title-size);
+      font-weight: 700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1s ease-in;
+      background: linear-gradient(45deg, #2c3e50, #3498db);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1px;
+      margin-bottom: clamp(1rem, 3vw, 2rem);
+    }
+
+    .choice {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(1rem, 3vw, 2rem);
+      margin: clamp(1rem, 3vw, 2rem) 0;
+      flex-wrap: wrap;
+    }
+
+    .radio-label {
+      padding: clamp(0.8rem, 2vw, 1.5rem) clamp(1.5rem, 4vw, 3rem);
+      font-size: var(--button-size);
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      position: relative;
+      overflow: hidden;
+      min-width: 120px;
+    }
+
+    .yes-btn {
+      background: var(--primary-gradient);
+      color: white;
+    }
+
+    .no-btn {
+      background: var(--secondary-gradient);
+      color: white;
+    }
+
+    .radio-label::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(255,255,255,0.2), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .radio-label:hover {
+      transform: scale(1.1) translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    }
+
+    .radio-label:hover::before {
+      transform: translateX(100%);
+    }
+
+    .radio-label input[type="radio"] {
+      display: none;
+    }
+
+    .videos {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+      display: none;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 100px;
+      gap: 1rem;
+    }
+
+    .for-image {
+      width: 100%;
+      height: 100%;
+      background-image: url(alden-richards-lang-sakalam-v0-qzc6d045qd2f1.webp);
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      border-radius: clamp(15px, 3vw, 20px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      transition: all 0.4s ease;
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .for-image:hover {
+      transform: scale(1.02);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+    }
+
+    .background-music {
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .whatif {
+      height: auto;
+      width: 100%;
+      margin: auto;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      display: none;
+      border-radius: clamp(15px, 3vw, 20px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      object-fit: cover;
+    }
+
+    audio#whatifAudio {
+      display: none;
+    }
+
+    audio#bgMusic {
+      width: 100%;
+      border-radius: 50px;
+      background: #f0f0f0;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media screen and (max-width: 768px) {
+      .choice {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .radio-label {
+        width: 100%;
+        text-align: center;
+      }
+
+      .videos {
+        aspect-ratio: 3/4;
+      }
+
+      .for-image {
+        background-size: contain;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .box {
+        padding: 1.5rem;
+      }
+
+      .title {
+        font-size: 1.8rem;
+      }
+
+      .radio-label {
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+      }
+
+      .videos {
+        aspect-ratio: 3/4;
+      }
+
+      .for-image {
+        background-size: contain;
+      }
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const ooInput = document.querySelector('input[value="Oo"]');
+      const hindiInput = document.querySelector('input[value="Hindi"]');
+      const videosContainer = document.querySelector(".videos");
+      const forImage = document.querySelector(".for-image");
+      const music = document.querySelector(".background-music");
+      const video = document.getElementById("myVideo");
+      const audio = document.getElementById("bgMusic");
+      const whatifAudio = document.getElementById("whatifAudio");
+      const videos = document.getElementById('videos');
+      const heartsContainer = document.getElementById('hearts-container');
+      const rainContainer = document.getElementById('rain-container');
+
+      function createHeart() {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+        heartsContainer.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+      }
+
+      function createRainDrop() {
+        const drop = document.createElement('div');
+        drop.className = 'rain-drop';
+        drop.style.left = Math.random() * 100 + 'vw';
+        drop.style.height = (Math.random() * 40 + 30) + 'px';
+        rainContainer.appendChild(drop);
+        setTimeout(() => drop.remove(), 1000);
+      }
+
+      function createSadIcon() {
+        const icons = ['😢', '💔', '😭', '😔', '😞'];
+        const sadIcon = document.createElement('div');
+        sadIcon.className = 'sad-icon';
+        sadIcon.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+        sadIcon.style.left = Math.random() * 100 + 'vw';
+        sadIcon.style.animationDuration = (Math.random() * 2 + 3) + 's';
+        rainContainer.appendChild(sadIcon);
+        setTimeout(() => sadIcon.remove(), 6000);
+      }
+
+      let heartInterval, rainInterval, sadInterval;
+
+      ooInput.addEventListener("change", function () {
+        if (this.checked) {
+          document.body.classList.remove('dark-mode');
+          document.body.classList.add('happy-mode');
+          videosContainer.style.display = "grid";
+          forImage.style.display = "block";
+          music.style.display = "block";
+          video.style.display = "none";
+          video.pause();
+          whatifAudio.pause();
+          audio.play();
+
+          heartsContainer.innerHTML = '';
+          rainContainer.innerHTML = '';
+          clearInterval(heartInterval);
+          clearInterval(rainInterval);
+          clearInterval(sadInterval);
+
+          heartInterval = setInterval(createHeart, 200);
+
+          forImage.style.opacity = "1";
+          forImage.style.visibility = "visible";
+          forImage.style.height = "100%";
+          forImage.style.width = "100%";
+        }
+      });
+
+      hindiInput.addEventListener("change", function () {
+        if (this.checked) {
+          document.body.classList.remove('happy-mode');
+          document.body.classList.add('dark-mode');
+          videosContainer.style.display = "none";
+          forImage.style.display = "none";
+          forImage.style.opacity = "0";
+          forImage.style.visibility = "hidden";
+          music.style.display = "none";
+          videos.style.display = "none";
+          audio.pause();
+          video.style.display = "block";
+          video.muted = true;
+          video.play();
+          whatifAudio.play();
+
+          heartsContainer.innerHTML = '';
+          clearInterval(heartInterval);
+
+          rainContainer.innerHTML = '';
+          rainInterval = setInterval(createRainDrop, 20);
+          
+          sadInterval = setInterval(createSadIcon, 800);
+        }
+      });
+
+      forImage.style.display = "none";
+      forImage.style.opacity = "0";
+      forImage.style.visibility = "hidden";
+    });
+  </script>
+</body>
+</html>
